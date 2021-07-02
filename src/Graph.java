@@ -57,9 +57,10 @@ public class Graph {
     {
         if (from.equals(to)) {
             boolean inWolfWay = false;
-            for (int i = 0; i < localPathList.size() ; i++) {
-                if (adjList[forbidden].contains(localPathList.get(i)) || adjList[localPathList.get(i)].contains(forbidden)){
+            for (Integer neighborVertice : localPathList) {
+                if (adjList[forbidden].contains(neighborVertice) || adjList[neighborVertice].contains(forbidden)) {
                     inWolfWay = true;
+                    break;
                 }
             }
             if (!inWolfWay){
@@ -104,7 +105,6 @@ public class Graph {
     static void getUserGragh(Graph graph, int verticesNum){
         Scanner scanner = new Scanner(System.in);
         int maxEdgesNum = factorial(verticesNum) / (factorial(verticesNum-2));
-        graph = new Graph(verticesNum);
         System.out.println("vertics from 0 to " + (verticesNum-1) + "initialized.\n");
         System.out.println("add edges:(to stop enter -1)");
         int from, to;
