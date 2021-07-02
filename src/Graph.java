@@ -1,8 +1,6 @@
 import java.util.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 public class Graph {
 
@@ -60,7 +58,7 @@ public class Graph {
         if (from.equals(to)) {
             boolean inWolfWay = false;
             for (int i = 0; i < localPathList.size() ; i++) {
-                if (adjList[forbidden].contains(localPathList.get(i))){
+                if (adjList[forbidden].contains(localPathList.get(i)) || adjList[localPathList.get(i)].contains(forbidden)){
                     inWolfWay = true;
                 }
             }
@@ -103,21 +101,19 @@ public class Graph {
     }
 
     //get graph vertices from user
-    static void getGragh(Graph graph){
+    static void getUserGragh(Graph graph, int verticesNum){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("number of vertices:");
-        int verticsNum = scanner.nextInt();
-        int maxEdgesNum = factorial(verticsNum) / (factorial(verticsNum-2));
-        graph = new Graph(verticsNum);
-        System.out.println("vertics from 0 to " + (verticsNum-1) + "initialized.\n");
+        int maxEdgesNum = factorial(verticesNum) / (factorial(verticesNum-2));
+        graph = new Graph(verticesNum);
+        System.out.println("vertics from 0 to " + (verticesNum-1) + "initialized.\n");
         System.out.println("add edges:(to stop enter -1)");
         int from, to;
         for (int i = 0; i < maxEdgesNum; i++) {
-//            System.out.println("from:");
+            System.out.println("from:");
             from = scanner.nextInt();
-//            System.out.println("to:");
+            System.out.println("to:");
             to = scanner.nextInt();
-            if (from < 0 || to < 0 || from >= verticsNum || to >= verticsNum){
+            if (from < 0 || to < 0 || from >= verticesNum || to >= verticesNum){
                 if (from == -1 || to == -1){
                     break;
                 }
@@ -128,23 +124,41 @@ public class Graph {
         }
         //scanner.close();
     }
+
+    public static void initGraph(Graph graph){
+        //graph = new Graph(6);
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 4);
+        graph.addEdge(2, 3);
+        graph.addEdge(4, 5);
+        graph.addEdge(5, 0);
+    }
     
     // Driver program
     public static void main(String[] args)
     {
         Scanner scanner = new Scanner(System.in);
-        Graph graph = null;
-        getGragh(graph);
+        int from, to, forbidden;
+        System.out.println("number of vertices:");
+        int verticesNum = scanner.nextInt();
+        Graph graph = new Graph(verticesNum);
+        getUserGragh(graph, verticesNum);
+
+        //        initGraph(graph);
 
         // arbitrary source
-        int from, to, forbidden;
+
         System.out.println("find path from:\n");
         from = scanner.nextInt();
         System.out.println("to:\n");
         to = scanner.nextInt();
         System.out.println("forbidden vertice:\n");
         forbidden = scanner.nextInt();
-
+//        from = 0;
+//        to = 3;
+//        forbidden = 4;
         System.out.println(
                 "Following are all different paths from "
                         + from + " to " + to);
